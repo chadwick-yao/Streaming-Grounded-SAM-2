@@ -63,6 +63,23 @@ class SAM2CameraPredictor(SAM2Base):
         img /= img_std
         return img, width, height
 
+    @classmethod
+    def from_pretrained(cls, model_id: str, **kwargs) -> "SAM2VideoPredictor":
+        """
+        Load a pretrained model from the Hugging Face hub.
+
+        Arguments:
+          model_id (str): The Hugging Face repository ID.
+          **kwargs: Additional arguments to pass to the model constructor.
+
+        Returns:
+          (SAM2VideoPredictor): The loaded model.
+        """
+        from sam2.build_sam import build_sam2_camera_predictor_hf
+
+        sam_model = build_sam2_camera_predictor_hf(model_id, **kwargs)
+        return sam_model
+
     @torch.inference_mode()
     def load_first_frame(self, img):
 
